@@ -13,7 +13,6 @@
 [![Live Demo](https://img.shields.io/badge/Live-PythonAnywhere-1D9FD7?style=flat-square)](https://yashpatil2026.pythonanywhere.com)
 [![License](https://img.shields.io/badge/License-MIT-22c55e?style=flat-square)](LICENSE)
 
-🌐 **Live Demo:** https://yashpatil2026.pythonanywhere.com
 
 </div>
 
