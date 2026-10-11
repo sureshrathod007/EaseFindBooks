@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Books for Mood: {{ mood|capitalize }}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <style>
+    :root {
+      --color-bg-main: #2C2E3A;
+      --color-bg-glass: rgba(44,46,58,0.70);
+      --color-glass-border: rgba(179,180,189,0.25);
+      --color-accent: #1b263b;
+      --color-accent-dark: #050A44;
+      --color-accent-light: #B3B4BD;
+      --color-text-main: #fff;
+      --color-text-muted: #B3B4BD;
+      --color-navbar: rgba(44,46,58,0.80);
+      --color-navbar-border: #141619;
+      --color-card-hover: rgba(10,33,192,0.15);
+    }
+    body {
+      background: var(--color-bg-main);
+      background-image: linear-gradient(135deg, #141619 0%, #2C2E3A 40%, #0A21C0 100%);
+      color: var(--color-text-main);
+      min-height: 100vh;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background-attachment: fixed;
+      background-size: cover;
+    }
+    .glass, .container {
+      background: var(--color-bg-glass) !important;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-radius: 16px;
+      border: 1px solid var(--color-glass-border);
+      color: var(--color-text-main);
+    }
+    .navbar {
+      background: var(--color-navbar) !important;
+      border-bottom: 2px solid var(--color-navbar-border);
+      box-shadow: 0 4px 24px rgba(20,22,25,0.10);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .navbar .navbar-brand {
+      color: #fff !important;
+      font-weight: bold;
+      font-size: 1.5rem;
+      letter-spacing: 1px;
+      text-shadow: 0 1px 2px rgba(44,46,58,0.13);
+    }
+    .navbar .nav-link {
+      color: var(--color-text-main) !important;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    .navbar .nav-link.active, .navbar .nav-link:hover {
+      color: var(--color-accent) !important;
+      background: var(--color-card-hover);
+      border-radius: 8px;
+    }
+    .section-heading {
+      font-size: 2rem;
+      font-weight: 600;
+      color:#1b263b;
+      background-color: var(--color-bg-glass);
+      padding: 15px;
+      border-radius: 10px;
+      text-align: center;
+      margin-bottom: 2rem;
+      letter-spacing: 1px;
+      box-shadow: 0 2px 8px rgba(20,22,25,0.07);
+    }
+    .card {
+      background: var(--color-bg-glass) !important;
+      border-radius: 14px;
+      border: 1px solid var(--color-glass-border) !important;
+      box-shadow: 0 2px 8px rgba(20,22,25,0.07);
+      color: var(--color-text-main) !important;
+      transition: transform 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      height: 100%;
+    }
+    .card:hover {
+      transform: scale(1.04);
+      box-shadow: 0 4px 24px var(--color-accent-dark);
+      background: var(--color-card-hover) !important;
+    }
+    .card-img-top {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-top-left-radius: 14px;
+      border-top-right-radius: 14px;
+      background: var(--color-accent-light);
+    }
+    .card-title {
+      color: var(--color-accent) !important;
+      font-size: 1.08rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      white-space: normal;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+    .card-text {
+      color: var(--color-text-muted);
+      font-size: 0.97rem;
+      margin-bottom: 0.2rem;
+      white-space: normal;
+      overflow-wrap: break-word;
+      word-break: break-word;
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+    .btn-group {
+      margin: 3rem auto 1.5rem auto;
+    }
+    .btn-group a {
+      min-width: 180px;
+      font-weight: 500;
+    }
+    .alert {
+      font-size: 1rem;
+      margin-top: 20px;
+      border-radius: 8px;
+      color: #fff;
+      background: var(--color-accent-dark);
+      border: 1px solid var(--color-accent);
+    }
+    @media (max-width: 768px) {
+      .section-heading {
+        font-size: 1.3rem;
+        padding: 10px;
+      }
+      .card-img-top {
+        height: 120px;
+      }
+      .btn-group {
+        flex-direction: column;
+        gap: 1rem;
+      }
+    }
+    footer {
+      background: var(--color-bg-glass);
+      color: var(--color-text-main);
+      padding: 32px 0 0 0;
+      margin-top: 48px;
+      border-top: 2px solid var(--color-navbar-border);
+      box-shadow: 0 2px 8px rgba(20,22,25,0.07);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    footer a {
+      color: var(--color-accent);
+      text-decoration: none;
+      margin-right: 12px;
+    }
+    footer a:hover {
+      color: var(--color-accent-light);
+      text-decoration: underline;
+    }
+    ::-webkit-scrollbar {
+      background: var(--color-bg-glass);
+      height: 8px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--color-accent);
+      border-radius: 4px;
+    }
+  </style>
+  <style>
+:root {
+  --color-bg-main: grey;
+  --color-bg-glass:#B3C8CF;
+  --color-text-main: #e6e6e6;
+  --color-accent: #1b263b;
+  --color-accent-light:#89a8b2;
+  --color-accent-dark: #8c6cd9;
+  --color-navbar: rgba(35, 36, 58, 0.9);
+  --color-navbar-border: rgba(255, 255, 255, 0.1);
+  --color-card-hover: rgba(170, 172, 218, 0.7);
+  --color-glass-border: #3a4044;
+  --color-glass-shadow: rgba(58, 61, 65, 0.1);
+  --color-glass-text: rgba(230, 230, 230, 0.9);
+}
+body {
+  background: rgba(197, 177, 177, 0.9);
+  color: white;
+  background-image: linear-gradient(135deg, #9FB3DF 0%, #BDDDE4 40%, #9EC6F3 100%);
+}
+.glass,
+.section-box,
+.select-book-box {
+  background: var(--color-bg-glass);
+  color: var(--color-text-main);
+  border: 1px solid var(--color-glass-border);
+  box-shadow: 0 8px 32px 0 var(--color-glass-shadow);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.navbar, .sidebar-custom {
+  background: var(--color-navbar) !important;
+  color: var(--color-text-main);
+  border-bottom: 2px solid var(--color-navbar-border);
+}
+.navbar .nav-link, .navbar-brand, .sidebar-custom .nav-link {
+  color: #fff !important;
+}
+.navbar .nav-link.active, .navbar .nav-link:hover,
+.sidebar-custom .nav-link.active, .sidebar-custom .nav-link:hover {
+  color: var(--color-accent) !important;
+  background: var(--color-card-hover);
+}
+.card, .playlist-card {
+  background: var(--color-accent-light) !important;
+  color: #fff !important;
+  border: 3px solid var(--color-glass-border) !important;
+}
+.card-title, .section-title, h2 {
+  color: #fff;
+}
+.card-text {
+  color: whitesmoke;
+}
+.btn-outline-primary {
+  color: whitesmoke;
+  border-color: var(--color-accent) !important;
+  background: var(--color-bg-glass);
+}
+.btn-outline-primary:hover, .btn-outline-primary:focus {
+  background: var(--color-accent) !important;
+  color: #fff !important;
+  border-color: var(--color-accent) !important;
+}
+.btn-outline-secondary {
+  color: var(--color-accent-light) !important;
+  border-color: var(--color-accent-light) !important;
+  background: transparent !important;
+}
+.btn-outline-secondary:hover, .btn-outline-secondary:focus {
+  background: var(--color-accent-light) !important;
+  color: var(--color-bg-main) !important;
+  border-color: var(--color-accent-light) !important;
+}
+input, textarea, select {
+  background: #fff !important;
+  color: #000 !important;
+  border: 1px solid #444 !important;
+}
+footer {
+  background: var(--color-bg-glass);
+  color: var(--color-accent);
+}
+footer a {
+  color: var(--color-navbar);
+}
+footer a:hover {
+  color: var(--color-accent-light);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-accent);
+}
+</style>
+</head>
+<body>
+    <!-- Navbar: always flat, never collapses. 3-dash opens sidebar offcanvas -->
+  <nav class="navbar" style="position:sticky;top:0;z-index:1050;">
+    <div class="container-fluid d-flex align-items-center gap-2 px-3">
+      <button class="btn btn-link p-0 me-1" type="button"
+              data-bs-toggle="offcanvas" data-bs-target="#sidebarOffcanvas"
+              style="color:#fff;font-size:1.6rem;line-height:1;text-decoration:none;border:none;">
+        <i class="bi bi-list"></i>
+      </button>
+      <a class="navbar-brand me-auto mb-0" href="/"><i class="bi bi-book-half"></i> EaseFindBooks</a>
+      <form class="d-flex flex-grow-1 mx-2" action="/recommend_books" method="post"
+            class="nav-search-form">
+        <input class="form-control form-control-sm me-1" type="text" name="user_input"
+               placeholder="Search books..." required>
+        <button class="btn btn-outline-primary btn-sm" type="submit"><i class="bi bi-search"></i></button>
+      </form>
+      {% if session.name %}
+        <div class="dropdown">
+          <a class="dropdown-toggle p-0" href="#" role="button" data-bs-toggle="dropdown"
+             style="color:#fff;text-decoration:none;">
+            <i class="bi bi-person-circle" style="font-size:1.8rem;vertical-align:middle;"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end" style="min-width:160px;">
+            <li><a class="dropdown-item" href="/profile"><i class="bi bi-person me-2"></i>My Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item text-danger" href="/logout"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+          </ul>
+        </div>
+      {% else %}
+        <a href="/login" style="color:#ae89fa;font-weight:600;white-space:nowrap;font-size:0.93rem;text-decoration:none;">
+          <i class="bi bi-box-arrow-in-right"></i> Login
+        </a>
+      {% endif %}
+    </div>
+  </nav>
+
+  <!-- Sidebar Offcanvas -->
+  <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarOffcanvas"
+       style="width:240px;background:var(--color-navbar);color:#fff;">
+    <div class="offcanvas-header" style="border-bottom:1px solid rgba(255,255,255,0.12);">
+      <span class="fw-bold fs-6"><i class="bi bi-book-half me-2"></i>EaseFindBooks</span>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"></button>
+    </div>
+    <div class="offcanvas-body p-0 pt-2">
+      <ul class="nav nav-pills flex-column px-2">
+        <li><a href="/" class="nav-link text-white"><i class="bi bi-house-door-fill me-2"></i>Home</a></li>
+        <li><a href="/recommend" class="nav-link text-white"><i class="bi bi-search me-2"></i>FindBook</a></li>
+        <li><a href="/select_mood" class="nav-link text-white"><i class="bi bi-emoji-smile me-2"></i>GetByMood</a></li>
+        <li><a href="/chatbot" class="nav-link text-white"><i class="bi bi-robot me-2"></i>Chatbot</a></li>
+        <li><a href="/book" class="nav-link text-white"><i class="bi bi-cloud-download me-2"></i>Download Books</a></li>
+        <li><a href="/contact" class="nav-link text-white"><i class="bi bi-envelope me-2"></i>Contact</a></li>
+        <li class="mt-2">
+          {% if session.name %}
+            <a href="/profile" class="nav-link text-white"><i class="bi bi-person-circle me-2"></i>My Profile</a>
+            <a href="/logout" class="nav-link text-danger"><i class="bi bi-box-arrow-right me-2"></i>Logout</a>
+          {% else %}
+            <a href="/login" class="nav-link text-white"><i class="bi bi-box-arrow-in-right me-2"></i>Login</a>
+          {% endif %}
+        </li>
+      </ul>
+      <hr style="border-color:rgba(255,255,255,0.15);margin:16px 8px 8px;">
+      <div class="small px-3" style="color:rgba(255,255,255,0.45);">&copy; {{ year }} EaseFindBooks</div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container mt-5 glass">
+    <h2 class="section-heading">Books for Mood: {{ mood|capitalize }}</h2>
+
+    {% if error %}
+      <div class="alert alert-danger text-center">{{ error }}</div>
+    {% else %}
+      <div class="row">
+        {% for book in books %}
+          <div class="col-sm-6 col-md-4 col-lg-3 mb-4 d-flex">
+            <div class="card w-100">
+              <img src="{{ book.image }}" class="card-img-top" alt="Cover of {{ book.title }}" />
+              <div class="card-body text-center">
+                <h6 class="card-title">{{ book.title }}</h6>
+                <p class="card-text">{{ book.author }}</p>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <!-- Navigation Buttons -->
+    <div class="text-center btn-group">
+      <a href="/select_mood" class="btn btn-secondary me-3">Choose Another Mood</a>
+      <a href="/" class="btn btn-outline-primary">Go Home</a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container text-center py-3">
+      <div class="mb-2" style="font-size:1.1rem;font-weight:600;letter-spacing:1px;">
+        <i class="bi bi-book-half me-1"></i> EaseFindBooks
+      </div>
+      <div class="mb-2" style="color:rgba(0,0,0,0.55);font-size:0.85rem;">
+        Discover books you'll love — powered by collaborative filtering.
+      </div>
+      <div class="mb-3">
+        <a href="https://facebook.com" target="_blank" style="margin:0 8px;font-size:1.3rem;"><i class="bi bi-facebook"></i></a>
+        <a href="https://twitter.com" target="_blank" style="margin:0 8px;font-size:1.3rem;"><i class="bi bi-twitter-x"></i></a>
+        <a href="https://instagram.com" target="_blank" style="margin:0 8px;font-size:1.3rem;"><i class="bi bi-instagram"></i></a>
+        <a href="https://linkedin.com" target="_blank" style="margin:0 8px;font-size:1.3rem;"><i class="bi bi-linkedin"></i></a>
+        <a href="https://github.com/Yash-Patil-26" target="_blank" style="margin:0 8px;font-size:1.3rem;"><i class="bi bi-github"></i></a>
+      </div>
+      <div style="font-size:0.8rem;color:rgba(0,0,0,0.45);">
+        &copy; {{ year }} EaseFindBooks &nbsp;|&nbsp;
+        <a href="/contact" style="text-decoration:none;">Contact Us</a> &nbsp;|&nbsp;
+        First Year Engineering Project
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
